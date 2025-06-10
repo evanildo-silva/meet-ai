@@ -1,15 +1,17 @@
 "use client";
 
 /* NPM Imports */
-import { z } from "zod";
+import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { OctagonAlertIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { FaGoogle, FaGithub } from "react-icons/fa";
 
 /* Local Imports */
 import { authClient } from "@/lib/auth-client";
+import { SignUpSchema, signUpSchema } from "../../validations/sign-up-schema";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -22,27 +24,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useState } from "react";
-
-const formSchema = z
-  .object({
-    name: z.string().min(1, { message: "Nome é obrigatório" }),
-    email: z.string().email({ message: "Email inválido" }),
-    password: z.string().min(1, { message: "Senha é obrigatória" }),
-    confirmPassword: z.string().min(1, { message: "Senha é obrigatória" }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "As senhas devem ser iguais",
-    path: ["confirmPassword"],
-  });
 
 const SignUpView = () => {
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const [pedding, setPedding] = useState(false);
+  const [pending, setPending] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const router = useRouter();
+
+  const form = useForm<SignUpSchema>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -51,23 +41,45 @@ const SignUpView = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
+  const handleSignUp = (data: SignUpSchema) => {
     setError(null);
-    setPedding(true);
+    setPending(true);
 
     authClient.signUp.email(
       {
         name: data.name,
         email: data.email,
         password: data.password,
+        callbackURL: "/",
       },
       {
         onSuccess: () => {
-          setPedding(false);
-          router.push(`/`);
+          setPending(false);
+          router.push("/");
         },
         onError: ({ error }) => {
-          setPedding(false);
+          setPending(false);
+          setError(error.message);
+        },
+      }
+    );
+  };
+
+  const handleSocialSignUp = (provider: "github" | "google") => {
+    setError(null);
+    setPending(true);
+
+    authClient.signIn.social(
+      {
+        provider: provider,
+        callbackURL: "/",
+      },
+      {
+        onSuccess: () => {
+          setPending(false);
+        },
+        onError: ({ error }) => {
+          setPending(false);
           setError(error.message);
         },
       }
@@ -79,7 +91,10 @@ const SignUpView = () => {
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 md:p-8">
+            <form
+              onSubmit={form.handleSubmit(handleSignUp)}
+              className="p-6 md:p-8"
+            >
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col items-center text-center">
                   <h1 className="text-2xl font-bold">Bem vindo!</h1>
@@ -159,7 +174,7 @@ const SignUpView = () => {
                     <AlertTitle>{error}</AlertTitle>
                   </Alert>
                 )}
-                <Button type="submit" disabled={pedding} className="w-full">
+                <Button type="submit" disabled={pending} className="w-full">
                   Cadastrar
                 </Button>
                 <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
@@ -170,19 +185,21 @@ const SignUpView = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <Button
                     type="button"
-                    disabled={pedding}
+                    onClick={() => handleSocialSignUp("google")}
+                    disabled={pending}
                     variant="outline"
                     className="w-full"
                   >
-                    Google
+                    <FaGoogle />
                   </Button>
                   <Button
                     type="button"
-                    disabled={pedding}
+                    onClick={() => handleSocialSignUp("github")}
+                    disabled={pending}
                     variant="outline"
                     className="w-full"
                   >
-                    Github
+                    <FaGithub />
                   </Button>
                 </div>
                 <div className="text-center text-sm">
