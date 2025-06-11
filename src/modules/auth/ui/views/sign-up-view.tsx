@@ -99,7 +99,7 @@ const SignUpView = () => {
                 <div className="flex flex-col items-center text-center">
                   <h1 className="text-2xl font-bold">Bem vindo!</h1>
                   <p className="text-muted-foreground text-balance">
-                    Entre com sua conta
+                    Crie sua conta
                   </p>
                 </div>
                 <div className="grid gap-3">
@@ -215,7 +215,7 @@ const SignUpView = () => {
             </form>
           </Form>
 
-          <div className="bg-radial from-green-700 to-green-900 relative hidden md:flex flex-col gpa-y-4 items-center justify-center">
+          <div className="bg-radial from-sidebar-accent to-sidebar relative hidden md:flex flex-col gpa-y-4 items-center justify-center">
             <img src="/logo.svg" alt="Image" className="h-[92px] w-[92px]" />
             <p className="text-2xl font-semibold text-white">Meet.AI</p>
           </div>
