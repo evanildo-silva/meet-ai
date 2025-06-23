@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-const agentsInsertSchema = z.object({
-  name: z.string().min(1, {message: "Nome é obrigatório"}),
-  instructions: z.string().min(1, {message: "Instruções são obrigatórias"})
-})
+export const agentsInsertSchema = z.object({
+  name: z.string().min(1, { message: "Nome é obrigatório" }),
+  instructions: z.string().min(1, { message: "Instruções são obrigatórias" }),
+});
 
-export { agentsInsertSchema }
+export type AgentsInsertType = z.infer<typeof agentsInsertSchema>;
