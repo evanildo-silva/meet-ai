@@ -1,8 +1,9 @@
 import { z } from "zod";
 import { db } from "@/db";
-import { and, count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm";
 import { agents } from "@/db/schema";
+import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
+import { and, count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm";
 
 import { agentsInsertSchema } from "../schemas";
 import {
@@ -15,14 +16,23 @@ import {
 export const agentsRouter = createTRPCRouter({
   getOne: protectedProcedure
     .input(z.object({ id: z.string() }))
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const [existinsAgent] = await db
         .select({
           ...getTableColumns(agents),
           meetingCount: sql<number>`1`,
         })
         .from(agents)
-        .where(eq(agents.id, input.id));
+        .where(
+          and(eq(agents.id, input.id), eq(agents.userId, ctx.auth.user.id))
+        );
+
+      if (!existinsAgent) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Operador não encontrado",
+        });
+      }
 
       return existinsAgent;
     }),
