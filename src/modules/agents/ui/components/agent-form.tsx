@@ -32,7 +32,26 @@ const AgentForm = ({ onSuccess, onCancel, initValues }: AgentFormProps) => {
   const createAgent = useMutation(
     trpc.agents.create.mutationOptions({
       onSuccess: async () => {
-        await queryClient.invalidateQueries(trpc.agents.getMany.queryOptions({}));
+        await queryClient.invalidateQueries(
+          trpc.agents.getMany.queryOptions({})
+        );
+        // TODO: Invalidate free tier usage
+        onSuccess?.();
+      },
+      onError: (error) => {
+        toast.error(error.message);
+
+        //TODO: Check if error code is "FORBIDDEN", redirect to "/upgrade"
+      },
+    })
+  );
+
+  const updateAgent = useMutation(
+    trpc.agents.update.mutationOptions({
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(
+          trpc.agents.getMany.queryOptions({})
+        );
 
         if (initValues?.id) {
           await queryClient.invalidateQueries(
@@ -58,12 +77,11 @@ const AgentForm = ({ onSuccess, onCancel, initValues }: AgentFormProps) => {
   });
 
   const isEdit = !!initValues?.id;
-  // const isPedding = createAgent.isPending || updateAgent.isPending;
-  const isPedding = createAgent.isPending;
+  const isPedding = createAgent.isPending || updateAgent.isPending;
 
   const onSubmit = (values: AgentsInsertType) => {
     if (isEdit) {
-      console.log("🚀 ~ TODO: updateAgent ~");
+      updateAgent.mutate({ ...values, id: initValues.id });
     } else {
       createAgent.mutate(values);
     }
