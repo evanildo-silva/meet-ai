@@ -1,9 +1,15 @@
 "use client";
 
+import { toast } from "sonner";
 import { VideoIcon } from "lucide-react";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import {
+  useSuspenseQuery,
+  useQueryClient,
+  useMutation,
+} from "@tanstack/react-query";
 
 import { useTRPC } from "@/trpc/client";
+import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { ErrorState } from "@/components/error-state";
 import { LoadingState } from "@/components/loading-state";
@@ -16,8 +22,24 @@ interface AgentIdViewProps {
 
 const AgentIdView = ({ agentId }: AgentIdViewProps) => {
   const trpc = useTRPC();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
   const { data } = useSuspenseQuery(
     trpc.agents.getOne.queryOptions({ id: agentId })
+  );
+
+  const removeAgent = useMutation(
+    trpc.agents.remove.mutationOptions({
+      onSuccess: () => {
+        queryClient.invalidateQueries(trpc.agents.getMany.queryOptions({}));
+        // TODO: Invalidate free tier usage
+        router.push("/agents");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    })
   );
 
   return (
