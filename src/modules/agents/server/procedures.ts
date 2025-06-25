@@ -5,7 +5,7 @@ import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import { and, count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm";
 
-import { agentsInsertSchema } from "../schemas";
+import { agentsInsertSchema, agentsUpdateSchema } from "../schemas";
 import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_SIZE,
@@ -95,6 +95,27 @@ export const agentsRouter = createTRPCRouter({
         .returning();
 
       return createdAgent;
+    }),
+
+  update: protectedProcedure
+    .input(agentsUpdateSchema)
+    .mutation(async ({ input, ctx }) => {
+      const [updateAgent] = await db
+        .update(agents)
+        .set(input)
+        .where(
+          and(eq(agents.id, input.id), eq(agents.userId, ctx.auth.user.id))
+        )
+        .returning();
+
+      if (!updateAgent) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Operador não encontrado",
+        });
+      }
+
+      return updateAgent;
     }),
 
   remove: protectedProcedure
