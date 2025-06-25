@@ -1,0 +1,39 @@
+"use client";
+
+import { useSuspenseQuery } from "@tanstack/react-query";
+
+import { useTRPC } from "@/trpc/client";
+import { ErrorState } from "@/components/error-state";
+import { LoadingState } from "@/components/loading-state";
+
+const MeetingsView = () => {
+  const trpc = useTRPC();
+  const { data } = useSuspenseQuery(trpc.meetings.getMany.queryOptions({}));
+
+  return (
+    <div className="flex-1 pb-4 px-4 md:px-8 flex flex-col gap-y-4">
+      <div>{JSON.stringify(data)}</div>
+    </div>
+  );
+};
+
+
+const MeetingsViewLoading = () => {
+  return (
+    <LoadingState
+      title={"Carregando Operadores"}
+      description={"Isso pode levar alguns segundos"}
+    />
+  );
+};
+
+const MeetingsViewError = () => {
+  return (
+    <ErrorState
+      title={"Erro ao Carregar os Operadores"}
+      description={"Aconteceu algo errado, tente novamente"}
+    />
+  );
+};
+
+export { MeetingsView, MeetingsViewLoading, MeetingsViewError };
