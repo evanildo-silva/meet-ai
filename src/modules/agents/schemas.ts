@@ -6,7 +6,7 @@ export const agentsInsertSchema = z.object({
 });
 
 export const agentsUpdateSchema = agentsInsertSchema.extend({
-  id: z.string().min(1, { message: "Id is required" }),
+  id: z.string().min(1, { message: "Id é obrigatório" }),
 });
 
 export type AgentsInsertType = z.infer<typeof agentsInsertSchema>;
