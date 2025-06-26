@@ -35,7 +35,7 @@ const AgentIdViewHeader = ({
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild className="font-medium text-xl">
-              <Link href="/agents">Meus Operadores</Link>
+              <Link href="/agents">Meus Assistentes</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="text-foreground text-xl font-medium [&>svg]:size-4">
@@ -54,16 +54,16 @@ const AgentIdViewHeader = ({
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost">
-            <MoreVerticalIcon />          
+            <MoreVerticalIcon />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem onClick={onEdit}>
-            <PencilIcon className="size-4 text-black"/>
+            <PencilIcon className="size-4 text-black" />
             Editar
           </DropdownMenuItem>
           <DropdownMenuItem onClick={onRemove}>
-            <TrashIcon className="size-4 text-black"/>
+            <TrashIcon className="size-4 text-black" />
             Excluir
           </DropdownMenuItem>
         </DropdownMenuContent>

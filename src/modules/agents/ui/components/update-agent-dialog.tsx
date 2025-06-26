@@ -11,8 +11,8 @@ interface UpdateAgentDialogProps {
 const UpdateAgentDialog = ({ open, onOpenChange, initialValues }: UpdateAgentDialogProps) => {
   return (
     <ResposiveDialog
-      title="Editar Operador"
-      description="Edite os detalhes do operador"
+      title="Editar Assistente"
+      description="Edite os detalhes do assistente"
       open={open}
       onOpenChange={onOpenChange}
     >

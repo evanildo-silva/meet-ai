@@ -15,7 +15,7 @@ interface DashboardCommadPrpos {
 const DashboardCommad = ({ open, setOpen }: DashboardCommadPrpos) => {
   return (
     <CommandResponsiveDialog open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder="Encontre uma reunião ou operador" />
+      <CommandInput placeholder="Encontre uma reunião ou assistente" />
       <CommandList>
         <CommandItem>Teste...</CommandItem>
       </CommandList>
