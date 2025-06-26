@@ -34,7 +34,7 @@ const AgentsView = () => {
       />
       {data.items.length === 0 && (
         <EmptyState
-          title={"Crie seu primeiro Operador"}
+          title={"Crie seu primeiro Assistente"}
           description={
             "Crie um agente para participar das suas reuniões. Cada agente seguirá suas instruções e poderá interagir com os participantes durante a chamada."
           }
@@ -47,7 +47,7 @@ const AgentsView = () => {
 const AgentsViewLoading = () => {
   return (
     <LoadingState
-      title={"Carregando Operadores"}
+      title={"Carregando Assistentes"}
       description={"Isso pode levar alguns segundos"}
     />
   );
@@ -56,7 +56,7 @@ const AgentsViewLoading = () => {
 const AgentsViewError = () => {
   return (
     <ErrorState
-      title={"Erro ao Carregar os Operadores"}
+      title={"Erro ao Carregar os Assistentes"}
       description={"Aconteceu algo errado, tente novamente"}
     />
   );

@@ -103,7 +103,10 @@ const MeetingForm = ({ onSuccess, onCancel, initValues }: MeetingFormProps) => {
 
   return (
     <>
-      <NewAgentDialog open={openNewAgentDialog} onOpenChange={setOpenNewAgentDialog} />
+      <NewAgentDialog
+        open={openNewAgentDialog}
+        onOpenChange={setOpenNewAgentDialog}
+      />
       <Form {...form}>
         <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
@@ -124,7 +127,7 @@ const MeetingForm = ({ onSuccess, onCancel, initValues }: MeetingFormProps) => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Operador</FormLabel>
+                <FormLabel>Assistente</FormLabel>
                 <FormControl>
                   <CommandSelect
                     options={(agents.data?.items ?? []).map((agent) => ({

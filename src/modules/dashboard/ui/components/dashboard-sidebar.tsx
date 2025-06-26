@@ -28,7 +28,7 @@ const firstSection = [
   },
   {
     icon: BotIcon,
-    label: "Operadores",
+    label: "Assistentes",
     href: "/agents",
   },
 ];

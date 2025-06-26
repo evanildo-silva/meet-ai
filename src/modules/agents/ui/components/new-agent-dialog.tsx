@@ -9,8 +9,8 @@ interface NewAgentDialogProps {
 const NewAgentDialog = ({ open, onOpenChange }: NewAgentDialogProps) => {
   return (
     <ResposiveDialog
-      title="Novo Operador"
-      description="Crie um novo operador"
+      title="Novo Assistente"
+      description="Crie um novo assistente"
       open={open}
       onOpenChange={onOpenChange}
     >

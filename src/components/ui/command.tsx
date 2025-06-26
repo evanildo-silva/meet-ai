@@ -70,7 +70,7 @@ function CommandResponsiveDialog({
 }: React.ComponentProps<typeof Dialog> & {
   title?: string;
   description?: string;
-  shouldFilter: boolean;
+  shouldFilter?: boolean;
 }) {
   const ismobile = useIsMobile();
 

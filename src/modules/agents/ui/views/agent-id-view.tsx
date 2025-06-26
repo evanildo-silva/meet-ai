@@ -109,7 +109,7 @@ const AgentIdView = ({ agentId }: AgentIdViewProps) => {
 const AgentsIdViewLoading = () => {
   return (
     <LoadingState
-      title={"Carregando Operador"}
+      title={"Carregando Assistente"}
       description={"Isso pode levar alguns segundos"}
     />
   );
@@ -118,7 +118,7 @@ const AgentsIdViewLoading = () => {
 const AgentsIdViewError = () => {
   return (
     <ErrorState
-      title={"Erro ao Carregar o Operador"}
+      title={"Erro ao Carregar o Assistente"}
       description={"Aconteceu algo errado, tente novamente"}
     />
   );

@@ -30,7 +30,7 @@ export const agentsRouter = createTRPCRouter({
       if (!existinsAgent) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Operador não encontrado",
+          message: "Assistente não encontrado",
         });
       }
 
@@ -111,7 +111,7 @@ export const agentsRouter = createTRPCRouter({
       if (!updateAgent) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Operador não encontrado",
+          message: "Assistente não encontrado",
         });
       }
 
@@ -131,7 +131,7 @@ export const agentsRouter = createTRPCRouter({
       if (!removeAgent) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Operador não encontrado",
+          message: "Assistente não encontrado",
         });
       }
 

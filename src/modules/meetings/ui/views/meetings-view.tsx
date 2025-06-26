@@ -38,7 +38,7 @@ const MeetingsView = () => {
 const MeetingsViewLoading = () => {
   return (
     <LoadingState
-      title={"Carregando Operadores"}
+      title={"Carregando Assistentes"}
       description={"Isso pode levar alguns segundos"}
     />
   );
@@ -47,7 +47,7 @@ const MeetingsViewLoading = () => {
 const MeetingsViewError = () => {
   return (
     <ErrorState
-      title={"Erro ao Carregar os Operadores"}
+      title={"Erro ao Carregar os Assistentes"}
       description={"Aconteceu algo errado, tente novamente"}
     />
   );

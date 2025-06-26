@@ -10,7 +10,7 @@ import { GeneratedAvatar } from "@/components/generated-avatar";
 export const columns: ColumnDef<AgentGetMany[number]>[] = [
   {
     accessorKey: "name",
-    header: "Operador",
+    header: "Assistente",
     cell: ({ row }) => (
       <div className="flex flex-col gap-y-2">
         <div className="flex items-center gap-x-2">
