@@ -10,10 +10,15 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 
+import { MeetingStatus } from "../../types";
 import { useConfirm } from "@/hooks/use-confirm";
 
 import { ErrorState } from "@/components/error-state";
+import { ActiveState } from "../components/active-state";
 import { LoadingState } from "@/components/loading-state";
+import { UpcomingState } from "../components/upcoming-state";
+import { CancelledState } from "../components/cancelled-state";
+import { ProcessingState } from "../components/processing-state";
 import { MeetingIdViewHeader } from "../components/meeting-id-view-header";
 import { UpdateMeetingDialog } from "../components/update-meeting-dialog";
 
@@ -61,6 +66,15 @@ const MeetingIdView = ({ meetingId }: MeetingIdViewProps) => {
     });
   };
 
+  const hasStatus = (current: typeof data.status, expected: MeetingStatus) =>
+    current === expected;
+
+  const isActive = hasStatus(data.status, MeetingStatus.Active);
+  const isUpcoming = hasStatus(data.status, MeetingStatus.Upcoming);
+  const isCancelled = hasStatus(data.status, MeetingStatus.Cancelled);
+  const isCompleted = hasStatus(data.status, MeetingStatus.Completed);
+  const isProcessing = hasStatus(data.status, MeetingStatus.Processing);
+
   return (
     <>
       <RemoveConfimation />
@@ -76,7 +90,20 @@ const MeetingIdView = ({ meetingId }: MeetingIdViewProps) => {
           onEdit={() => setUpdateMeetingDialogOpen(true)}
           onRemove={handleRemoveMeeting}
         />
-        {JSON.stringify(data, null, 2)}
+        {isUpcoming && (
+          <UpcomingState
+            meetingId={meetingId}
+            isCancelling={false}
+            onCancelMeeting={() => {}}
+          />
+        )}
+        {isActive && <ActiveState meetingId={meetingId} />}
+        {isCancelled && <CancelledState />}
+        {/*
+         // TODO: CompletedState 
+        */}
+        {isCompleted && <div>Completed</div>}
+        {isProcessing && <ProcessingState />}
       </div>
     </>
   );
