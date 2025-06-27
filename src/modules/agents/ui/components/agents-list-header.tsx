@@ -37,7 +37,7 @@ const AgentsListHeader = () => {
           <AgentsSearchFilter />
           {isAnyFilterModified && (
             <Button variant="outline" size="sm" onClick={onClearFilters}>
-              <XCircleIcon />
+              <XCircleIcon className="size-4" />
               Limpar Filtro
             </Button>
           )}
