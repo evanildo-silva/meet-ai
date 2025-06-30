@@ -33,7 +33,7 @@ const UpcomingState = ({
           Cancelar reunião
         </Button>
         <Button asChild disabled={isCancelling} className="w-full lg:w-auto">
-          <Link href={`call/${meetingId}`}>
+          <Link href={`/call/${meetingId}`}>
             <VideoIcon />
             Iniciar reunião
           </Link>
